@@ -11,9 +11,10 @@
 ;;use MongoDb and create a collection called jobs and the documents in
 ;;the jobs collection contain an attribute called :queue
 (defn post-job
-  [queue-url klass args]
+  [queue-url klass args username password]
   (http/post queue-url
-             {:content-type :json
+             {:basic-auth [username password]
+              :content-type :json
               :accept :json
               :body (json-str {:job {:klass klass
                                      :args args}})}))
@@ -25,8 +26,8 @@
 ;;client with the JOB. If there are no JOBS in a new status for that
 ;;queue then the server should return an empty response.
 (defn get-job
-  [queue-url]
-  (let [result (http/get queue-url)
+  [queue-url username password]
+  (let [result (http/get queue-url {:basic-auth [username password]})
         body (:body result)
         info (read-json body)]
     info))
@@ -37,5 +38,6 @@
 ;;return a success response, if it can't find the job then return an
 ;;error response or empty response.
 (defn delete-job
-  [queue-url job-id]
-  (http/delete (str queue-url "/" job-id)))
+  [queue-url job-id username password]
+  (http/delete (str queue-url "/" job-id)
+               {:basic-auth [username password]}))
