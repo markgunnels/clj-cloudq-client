@@ -4,6 +4,10 @@
                                   write-json
                                   read-json)]))
 
+(defn queue-not-empty?
+  [job]
+  (not (= (:status job) "empty")))
+
 ;;POST /:queue
 ;;When a client requests a POST for a queue name the server needs to
 ;;first make sure that JOB is valid, if the job is not valid then
