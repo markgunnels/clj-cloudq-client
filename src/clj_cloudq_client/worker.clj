@@ -19,9 +19,9 @@
   [cloudq-url queue username password
    attempt-job-fn on-failure-fn empty-delay-ms]
   (loop []
-    (try+
-     (let [url (str cloudq-url "/" queue)
-           job (get-job url username password)]
+    (let [url (str cloudq-url "/" queue)
+          job (get-job url username password)]
+      (try+
        (if (queue-not-empty? job)
          (do
            (attempt-job-fn job)
@@ -29,7 +29,7 @@
                        (:id job)
                        username
                        password))
-         (Thread/sleep empty-delay-ms))) 
-     (catch Object o
-       (on-failure-fn job o)))
+         (Thread/sleep empty-delay-ms))
+       (catch Object o
+         (on-failure-fn job o))))
     (recur)))
