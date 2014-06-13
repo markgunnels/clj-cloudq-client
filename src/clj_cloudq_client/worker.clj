@@ -6,6 +6,13 @@
         [slingshot.slingshot :only [throw+ try+]]
         clj-cloudq-client.core))
 
+(defn retrieve-job-from-cloudq
+  [url username password]
+  (try+
+   (get-job url username password)
+   (catch Object o
+     (println o))))
+
 (defn run
   "This is a generic worker. It accepts:
    - the URL of the cloudq,
@@ -20,8 +27,9 @@
    attempt-job-fn on-failure-fn empty-delay-ms]
   (loop []
     (let [url (str cloudq-url "/" queue)
-          job (get-job url username password)]
+          job (retrieve-job-from-cloudq)]
       (try+
+       (println job)
        (if (queue-not-empty? job)
          (do
            (attempt-job-fn job)
