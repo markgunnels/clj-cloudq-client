@@ -27,7 +27,7 @@
    attempt-job-fn on-failure-fn empty-delay-ms]
   (loop []
     (let [url (str cloudq-url "/" queue)
-          job (retrieve-job-from-cloudq)]
+          job (retrieve-job-from-cloudq url username password)]
       (try+
        (println job)
        (if (queue-not-empty? job)
