@@ -6,7 +6,8 @@
 
 (defn queue-not-empty?
   [job]
-  (not (= (:status job) "empty")))
+  (not (or (nil? job) 
+           (= (:status job) "empty")) ))
 
 ;;POST /:queue
 ;;When a client requests a POST for a queue name the server needs to
@@ -49,4 +50,6 @@
   [queue-url job-id username password]
   (http/delete (str queue-url "/" job-id)
                {:basic-auth [username password]
+                :conn-timeout 1000
+                :socket-timeout 1000
                 :insecure? true}))
