@@ -31,7 +31,9 @@
 ;;queue then the server should return an empty response.
 (defn get-job
   [queue-url username password]
-  (let [result (http/get queue-url {:basic-auth [username password]})
+  (let [result (http/get queue-url 
+                         {:basic-auth [username password]
+                          :conn-timeout 2000})
         body (:body result)
         info (read-json body)]
     info))
