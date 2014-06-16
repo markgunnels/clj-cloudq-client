@@ -33,7 +33,8 @@
   [queue-url username password]
   (let [result (http/get queue-url 
                          {:basic-auth [username password]
-                          :conn-timeout 2000})
+                          :conn-timeout 1000
+                          :socket-timeout 1000})
         body (:body result)
         info (read-json body)]
     info))
