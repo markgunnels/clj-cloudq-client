@@ -39,5 +39,6 @@
                        password))
          (Thread/sleep empty-delay-ms))
        (catch Object o
-         (on-failure-fn job o))))
+         (on-failure-fn job o)
+         (recur))))
     (recur)))
