@@ -34,7 +34,8 @@
   (let [result (http/get queue-url 
                          {:basic-auth [username password]
                           :conn-timeout 1000
-                          :socket-timeout 1000})
+                          :socket-timeout 1000
+                          :insecure? true})
         body (:body result)
         info (read-json body)]
     info))
@@ -47,4 +48,5 @@
 (defn delete-job
   [queue-url job-id username password]
   (http/delete (str queue-url "/" job-id)
-               {:basic-auth [username password]}))
+               {:basic-auth [username password]
+                :insecure? true}))
