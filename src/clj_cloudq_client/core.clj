@@ -6,8 +6,7 @@
 
 (defn queue-not-empty?
   [job]
-  (not (or (nil? job) 
-           (= (:status job) "empty")) ))
+  (not (= (:status job) "empty") ))
 
 ;;POST /:queue
 ;;When a client requests a POST for a queue name the server needs to
