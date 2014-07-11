@@ -32,11 +32,12 @@
        (println job)
        (if (queue-not-empty? job)
          (do
-           (attempt-job-fn job)
-           (delete-job url
+           (if job
+             (attempt-job-fn job)
+             (delete-job url
                        (:id job)
                        username
-                       password))
+                       password)))
          (Thread/sleep empty-delay-ms))
        (catch Object o
          (on-failure-fn job o))))
